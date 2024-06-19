@@ -116,11 +116,11 @@ btn_carrito.addEventListener("click", () => {
     return;
   }
   // Validar url
-  const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/;
-  if (!urlRegex.test(URL)) {
-    alert("Por favor, ingrese una URL válida.");
+  if (!URL.startsWith("http://") && !URL.startsWith("https://")) {
+    alert("Por favor, ingrese una URL válida que comience con 'http://' o 'https://'.");
     return;
   }
+
 
   // Verifica si se está editando un producto o se está agregando uno nuevo
   if (btn_carrito.dataset.index !== undefined) {
@@ -208,11 +208,9 @@ const sendMesage = (number, message, apikey) => {
     .catch(error => console.log(error));
 }
 
-
 const phone = "5356057547"
 var text = ""
 const apikey = "3002805"
-
 
 btn_enviar_pedido_modal.addEventListener("click", () => {
   const nombre_persona = inputNombre.value.trim();
@@ -250,29 +248,55 @@ btn_enviar_pedido_modal.addEventListener("click", () => {
   let contador = 1
 
   message = `
-Productos:
+🛒 *_Comprobante de compra_* 🧾
+
+👤 *Cliente:* 
 `
-  lista_producto.forEach(e => {
-
-    message += `
-${contador} - ${e.nombre}: 
-	- Precio: ${e.precio}
-	- Cantidad: ${e.Cantidad}
-	- URL: ${e.URL}
---------------------------------------------`
-    contador++
-  })
-
   message += `
-Datos Personales:
 	- Nombre: ${lista_persona[0].nombre}
 	- Nro: ${lista_persona[0].telefono}
 	`
 
   message += lista_persona[0].domicilio ? `- Domicilio: ${lista_persona[0].domicilio}` : ``;
+
+  message += `
+🏪 *Tienda:* - 
+`
+  const time = Date.now()
+  const hoy = new Date(time).toLocaleDateString()
+  message += `
+🗓 *Fecha:* ${hoy} 
+
+🛒 *Artículos en el carrito:*
+`
+  let total = 0
+  lista_producto.forEach(e => {
+    total += parseFloat(e.precio) * parseInt(e.Cantidad)
+    message += `
+${contador} - ${e.nombre}: 
+- Precio: ${e.precio}
+- Cantidad: ${e.Cantidad}
+- URL: ${e.URL}
+--------------------------------------------`
+    contador++
+  })
+
+  message += `
+🧾 *Importe _(inicial/no incluye costos de paquetería ni comisión)_* 📥
+USD: ${total}$
+MLC (1.35): ${total * 1.35}$
+CUP (efectivo/350): ${total * 350}$
+CUP (transferencia/1.05):${total * 350 * 1.05}$
+
+📝 El segundo pago se realiza al llegar la compra, que sería el coste de paquetería (peso en libra x 9 USD) y comisión (1 USD por artículo) 
+
+_Klaudia Elízabeth Shein_ 🛍️
+Muchas Gracias por comprar con nosotros 🤍
+`
+
   message = encodeURI(message)
   sendMesage(phone, message, apikey)
-  alert("Gracias por realizar el pedido. El mismo se va a revisar y una vez hecho los administradores se comunicarán con usted.");
+  alert("Tu pedido está en camino. Revisaremos tus datos y un administrador se pondrá en contacto contigo para coordinar el pago. ¡Gracias por tu compra!");
   lista_persona = [];
   lista_producto = [];
   actualizarTabla();
