@@ -493,6 +493,7 @@ footer{
     display: flex;
     justify-content: center;
     list-style-type: none;
+    margin-right: 30px;
 }
 .footer-nav ul li a{
     color: var(--fg-identity);
