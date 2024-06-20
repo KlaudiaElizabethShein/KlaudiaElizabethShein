@@ -493,7 +493,6 @@ footer{
     display: flex;
     justify-content: center;
     list-style-type: none;
-    margin-right: 30px;
 }
 .footer-nav ul li a{
     color: var(--fg-identity);
@@ -718,6 +717,7 @@ footer{
     .footer-nav ul{
         flex-direction: column;
         text-align: center;
+	margin-right: 30px;
     }
     .footer-nav ul i{
         width: 100%;
