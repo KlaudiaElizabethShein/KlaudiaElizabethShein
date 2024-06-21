@@ -193,12 +193,12 @@ btn_enviar_pedido.addEventListener("click", () => {
 
 });
 
-const sendMesage = (number, message, apikey) => {
+const sendMesage = (user, message) => {
   var requestOptions = {
     method: 'GET',
   }
   fetch(
-    `https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${message}&apikey=${apikey}`,
+    `https://api.callmebot.com/text.php?user=${user}&text=${message}`,
     requestOptions
   )
     .then(response => response.text())
@@ -208,9 +208,8 @@ const sendMesage = (number, message, apikey) => {
     .catch(error => console.log(error));
 }
 
-const phone = "5356057547"
+const userName = "@Murmaider_Kitsune"
 var text = ""
-const apikey = "3002805"
 
 btn_enviar_pedido_modal.addEventListener("click", () => {
   const nombre_persona = inputNombre.value.trim();
@@ -272,30 +271,36 @@ btn_enviar_pedido_modal.addEventListener("click", () => {
   let total = 0
   lista_producto.forEach(e => {
     total += parseFloat(e.precio) * parseInt(e.Cantidad)
-    message += `
+    message +=`
 ${contador} - ${e.nombre}: 
 - Precio: ${e.precio}
 - Cantidad: ${e.Cantidad}
-- URL: ${e.URL}
+- URL: ${e.URL.replace(/#/g, "%23").replace(/&/g, "%26")}
+- Descripcion: ${e.descripcion}
 --------------------------------------------`
     contador++
   })
 
+  let totalUSD = total.toFixed(2);
+  let totalMLC = (total * 1.35).toFixed(2);
+  let totalCUPEfectivo = (total * 350).toFixed(2);
+  let totalCUPTransferencia = (total * 350 * 1.05).toFixed(2);
+
   message += `
 🧾 *Importe _(inicial/no incluye costos de paquetería ni comisión)_* 📥
-USD: ${total}$
-MLC (1.35): ${total * 1.35}$
-CUP (efectivo/350): ${total * 350}$
-CUP (transferencia/1.05):${total * 350 * 1.05}$
+USD: ${totalUSD}$
+MLC (1.35): ${totalMLC}$
+CUP (efectivo/350): ${totalCUPEfectivo}$
+CUP (transferencia/1.05):${totalCUPTransferencia}$
 
 📝 El segundo pago se realiza al llegar la compra, que sería el coste de paquetería (peso en libra x 9 USD) y comisión (1 USD por artículo) 
 
-_Klaudia Elízabeth Shein_ 🛍️
 Muchas Gracias por comprar con nosotros 🤍
+_Klaudia Elízabeth Shein_ 🛍️
 `
 
   message = encodeURI(message)
-  sendMesage(phone, message, apikey)
+  sendMesage(userName, message)
   alert("Tu pedido está en camino. Revisaremos tus datos y un administrador se pondrá en contacto contigo para coordinar el pago. ¡Gracias por tu compra!");
   lista_persona = [];
   lista_producto = [];
