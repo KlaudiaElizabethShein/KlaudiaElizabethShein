@@ -101,6 +101,26 @@
             </div>
         </section>
 
+        <!-- Modal de Confirmacion del Pedido -->
+        <section id="ModalConfirmarPedido">  
+            <div class="modal fade" id="modal-confirmar-pedido" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalPersonaLabel">Asi quedaría el pago de tu carrito. ¿Estas de acuerdo?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">                                                                
+                    </div>                  
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="boton-confirmar-pedido" data-bs-toggle="modal" data-bs-target="#modal-persona">Confirmar Pedido</button>
+                    </div>
+                </div>
+                </div>
+            </div>            
+        </section>
+
         <!-- Persona -->
         <section id="ModalPersona">  
             <div class="modal fade" id="modal-persona" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -176,7 +196,7 @@
         <!-- Botón "Enviar Pedido" -->
         <div class="container mt-4 d-flex justify-content-end"> 
             <button class="btn btn-success btn-lg" id="enviar-pedido"
-             data-bs-target="#modal-persona">Enviar Pedido</button>
+             data-bs-target="#modal-confirmar-pedido">Enviar Pedido</button>
         </div>
 
     </main>
