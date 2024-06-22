@@ -167,7 +167,7 @@ let areaDomicilio = document.getElementById('areaDomicilio');
 let btn_enviar_pedido_modal = document.getElementById("boton-add-pedido");
 let btn_enviar_pedido = document.getElementById("enviar-pedido");
 let lista_persona = [];
-const modal = new bootstrap.Modal(document.getElementById('modal-persona'));
+const modal = new bootstrap.Modal(document.getElementById('modal-confirmar-pedido'));
 
 domicilioSi.addEventListener('change', () => {
   areaDomicilio.style.display = 'block';
@@ -179,18 +179,35 @@ domicilioNo.addEventListener('change', () => {
 
 btn_enviar_pedido.addEventListener("click", () => {
   if (lista_producto.length === 0) {
-    alert("Debe Añadir al menos un producto.");
+    alert("Debe añadir al menos un producto.");
     return;
-  } else {
-    // Limpiar los campos de los inputs
-    inputNombre.value = "";
-    inputTelefono.value = "";
-    inputDomicilio.value = "";
-
-    //Muestra el modal
-    modal.show();
   }
 
+  let total = 0;
+
+  // Generar el contenido de la tabla con los datos del pedido
+  lista_producto.forEach((producto) => {
+    total += parseFloat(producto.precio) * parseInt(producto.Cantidad);
+  });
+
+  let totalUSD = total.toFixed(2);
+  let totalMLC = (total * 1.35).toFixed(2);
+  let totalCUPEfectivo = (total * 350).toFixed(2);
+  let totalCUPTransferencia = (total * 350 * 1.05).toFixed(2);
+
+  // Llenar el modal con la tabla de resumen del pedido
+  let modalBody = document.querySelector('#modal-confirmar-pedido .modal-body');
+  modalBody.innerHTML = `
+    <h5 class="mb-3">Importe (inicial/no incluye costos de paquetería ni comisión):</h5>
+    <ul class="list-group">
+      <li class="list-group-item">USD: $ ${totalUSD}</li>
+      <li class="list-group-item">MLC: $ ${totalMLC}</li>
+      <li class="list-group-item">CUP (efectivo): $ ${totalCUPEfectivo}</li>
+      <li class="list-group-item">CUP (transferencia): $ ${totalCUPTransferencia}</li>
+    </ul>`;
+
+  // Mostrar el modal
+  modal.show();
 });
 
 const sendMesage = (user, message) => {
@@ -271,9 +288,9 @@ btn_enviar_pedido_modal.addEventListener("click", () => {
   let total = 0
   lista_producto.forEach(e => {
     total += parseFloat(e.precio) * parseInt(e.Cantidad)
-    message +=`
+    message += `
 ${contador} - ${e.nombre}: 
-- Precio: ${e.precio}
+- Precio: $ ${e.precio}
 - Cantidad: ${e.Cantidad}
 - URL: ${e.URL.replace(/#/g, "%23").replace(/&/g, "%26")}
 - Descripcion: ${e.descripcion}
@@ -288,10 +305,10 @@ ${contador} - ${e.nombre}:
 
   message += `
 🧾 *Importe _(inicial/no incluye costos de paquetería ni comisión)_* 📥
-USD: ${totalUSD}$
-MLC (1.35): ${totalMLC}$
-CUP (efectivo/350): ${totalCUPEfectivo}$
-CUP (transferencia/1.05):${totalCUPTransferencia}$
+USD: $ ${totalUSD}
+MLC (1.35): $ ${totalMLC}
+CUP (efectivo/350): $ ${totalCUPEfectivo}
+CUP (transferencia/1.05):$ ${totalCUPTransferencia}
 
 📝 El segundo pago se realiza al llegar la compra, que sería el coste de paquetería (peso en libra x 9 USD) y comisión (1 USD por artículo) 
 
