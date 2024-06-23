@@ -192,8 +192,8 @@ btn_enviar_pedido.addEventListener("click", () => {
 
   let totalUSD = total.toFixed(2);
   let totalMLC = (total * 1.35).toFixed(2);
-  let totalCUPEfectivo = (total * 350).toFixed(2);
-  let totalCUPTransferencia = (total * 350 * 1.05).toFixed(2);
+  let totalCUPEfectivo = (total * 360).toFixed(2);
+  let totalCUPTransferencia = (total * 360 * 1.05).toFixed(2);
 
   // Llenar el modal con la tabla de resumen del pedido
   let modalBody = document.querySelector('#modal-confirmar-pedido .modal-body');
@@ -314,14 +314,14 @@ ${contador} - ${e.nombre}:
 
   let totalUSD = total.toFixed(2);
   let totalMLC = (total * 1.35).toFixed(2);
-  let totalCUPEfectivo = (total * 350).toFixed(2);
-  let totalCUPTransferencia = (total * 350 * 1.05).toFixed(2);
+  let totalCUPEfectivo = (total * 360).toFixed(2);
+  let totalCUPTransferencia = (total * 360 * 1.05).toFixed(2);
 
   message += `
 🧾 *Importe _(inicial/no incluye costos de paquetería ni comisión)_* 📥
 USD: $ ${totalUSD}
 MLC (1.35): $ ${totalMLC}
-CUP (efectivo/350): $ ${totalCUPEfectivo}
+CUP (efectivo/360): $ ${totalCUPEfectivo}
 CUP (transferencia/1.05):$ ${totalCUPTransferencia}
 
 📝 El segundo pago se realiza al llegar la compra, que sería el coste de paquetería (peso en libra x 9 USD) y comisión (1 USD por artículo) 
