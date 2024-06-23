@@ -210,12 +210,12 @@ btn_enviar_pedido.addEventListener("click", () => {
   modal.show();
 });
 
-const sendMesage = (user, message) => {
+const sendMesage = (message) => {
   var requestOptions = {
     method: 'GET',
   }
   fetch(
-    `https://api.callmebot.com/text.php?user=${user}&text=${message}`,
+    `https://api.callmebot.com/text.php?user=@Murmaider_Kitsune&text=${message}`,
     requestOptions
   )
     .then(response => response.text())
@@ -223,9 +223,23 @@ const sendMesage = (user, message) => {
       console.log(result)
     })
     .catch(error => console.log(error));
+
+    /** Se Realiza lo mismo una Segunda Vez para la otra persona que reciba el mensaje*/
+    var requestOptions = {
+      method: 'GET',
+    }
+    fetch(
+      `https://api.callmebot.com/text.php?user=@dejenme_dormir&text=${message}`,
+      requestOptions
+    )
+      .then(response => response.text())
+      .then(result => {
+        console.log(result)
+      })
+      .catch(error => console.log(error));
 }
 
-const userName = "@Murmaider_Kitsune"
+//const userName = "@Murmaider_Kitsune"
 var text = ""
 
 btn_enviar_pedido_modal.addEventListener("click", () => {
@@ -317,7 +331,7 @@ _Klaudia Elízabeth Shein_ 🛍️
 `
 
   message = encodeURI(message)
-  sendMesage(userName, message)
+  sendMesage(message)
   alert("Tu pedido está en camino. Revisaremos tus datos y un administrador se pondrá en contacto contigo para coordinar el pago. ¡Gracias por tu compra!");
   lista_persona = [];
   lista_producto = [];
